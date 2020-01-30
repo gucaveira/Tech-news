@@ -2,7 +2,9 @@ package com.technews.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.technews.R
@@ -11,6 +13,7 @@ import com.technews.model.Noticia
 import com.technews.repository.NoticiaRepository
 import com.technews.ui.activity.extensions.mostraErro
 import com.technews.ui.recyclerview.adapter.ListaNoticiasAdapter
+import com.technews.ui.viewmodel.ListaNoticiasViewModel
 import kotlinx.android.synthetic.main.activity_lista_noticias.*
 
 private const val TITULO_APPBAR = "Notícias"
@@ -31,6 +34,11 @@ class ListaNoticiasActivity : AppCompatActivity() {
         title = TITULO_APPBAR
         configuraRecyclerView()
         configuraFabAdicionaNoticia()
+
+        val provedor = ViewModelProviders.of(this)
+        val viewModel = provedor.get(ListaNoticiasViewModel::class.java)
+
+        Log.i("viewModel", viewModel.toString())
     }
 
     override fun onResume() {
