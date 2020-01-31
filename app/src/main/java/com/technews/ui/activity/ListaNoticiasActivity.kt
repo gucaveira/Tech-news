@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
@@ -11,7 +12,6 @@ import com.technews.R
 import com.technews.database.AppDatabase
 import com.technews.model.Noticia
 import com.technews.repository.NoticiaRepository
-import com.technews.ui.activity.extensions.mostraErro
 import com.technews.ui.recyclerview.adapter.ListaNoticiasAdapter
 import com.technews.ui.viewmodel.ListaNoticiasViewModel
 import com.technews.ui.viewmodel.factory.ListaNoticiasViewModelFactory
@@ -66,13 +66,10 @@ class ListaNoticiasActivity : AppCompatActivity() {
     }
 
     private fun buscaNoticias() {
-        viewModel.buscaTodos(
-            quandoSucesso = {
-                adapter.atualiza(it)
-            }, quandoFalha = {
-                mostraErro(MENSAGEM_FALHA_CARREGAR_NOTICIAS)
-            }
-        )
+        viewModel.buscaTodos().observe(this, Observer {
+            Log.i("teste", "atualizando noticias")
+            adapter.atualiza(it)
+        })
     }
 
     private fun abreFormularioModoCriacao() {
