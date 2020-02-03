@@ -4,12 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.technews.model.Noticia
 import com.technews.repository.NoticiaRepository
+import com.technews.repository.Resource
 
-class ListaNoticiasViewModel(
-    private val repository: NoticiaRepository
-) : ViewModel() {
+class ListaNoticiasViewModel(private val repository: NoticiaRepository) : ViewModel() {
 
-    fun buscaTodos(): LiveData<List<Noticia>> {
+    fun buscaTodos(): LiveData<Resource<List<Noticia>?>> {
         return repository.buscaTodos()
     }
 }

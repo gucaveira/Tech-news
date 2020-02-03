@@ -12,6 +12,7 @@ import com.technews.R
 import com.technews.database.AppDatabase
 import com.technews.model.Noticia
 import com.technews.repository.NoticiaRepository
+import com.technews.ui.activity.extensions.mostraErro
 import com.technews.ui.recyclerview.adapter.ListaNoticiasAdapter
 import com.technews.ui.viewmodel.ListaNoticiasViewModel
 import com.technews.ui.viewmodel.factory.ListaNoticiasViewModelFactory
@@ -66,9 +67,11 @@ class ListaNoticiasActivity : AppCompatActivity() {
     }
 
     private fun buscaNoticias() {
-        viewModel.buscaTodos().observe(this, Observer {
-            Log.i("teste", "atualizando noticias")
-            adapter.atualiza(it)
+        viewModel.buscaTodos().observe(this, Observer { resources ->
+            resources.dado?.let { adapter.atualiza(it) }
+            resources.erro?.let {
+                mostraErro(MENSAGEM_FALHA_CARREGAR_NOTICIAS)
+            }
         })
     }
 
