@@ -48,12 +48,14 @@ class NoticiaRepository(
         removeNaApi(noticia, quandoSucesso, quandoFalha)
     }
 
-    fun edita(
-        noticia: Noticia,
-        quandoSucesso: (noticiaEditada: Noticia) -> Unit,
-        quandoFalha: (erro: String?) -> Unit
-    ) {
-        editaNaApi(noticia, quandoSucesso, quandoFalha)
+    fun edita(noticia: Noticia): LiveData<Resource<Void?>> {
+        val liveData = MutableLiveData<Resource<Void?>>()
+        editaNaApi(noticia, quandoSucesso = {
+            liveData.value = Resource(null)
+        }, quandoFalha = {
+            liveData.value = Resource(dado = null, erro = it)
+        })
+        return liveData
     }
 
     fun buscaPorId(
