@@ -16,30 +16,28 @@ class NoticiaRepository(
     private val noticiasEncontradas = MutableLiveData<Resource<List<Noticia>?>>()
 
     fun buscaTodos(): LiveData<Resource<List<Noticia>?>> {
-        buscaInterno(quandoSucesso = {
+        val atualizaLiveData: (List<Noticia>) -> Unit = {
             noticiasEncontradas.value = Resource(dado = it)
-        })
-        buscaNaApi(quandoSucesso = {
-            noticiasEncontradas.value = Resource(dado = it)
-        }, quandoFalha = {
-            val resourceAtual = noticiasEncontradas.value
-            val resourceCriado: Resource<List<Noticia>?> =
-                if (resourceAtual != null) {
-                    Resource(dado = resourceAtual.dado, erro = it)
-                } else {
-                    Resource(dado = null, erro = it)
-                }
-            noticiasEncontradas.value = resourceCriado
-        })
+        }
+        buscaInterno(quandoSucesso = atualizaLiveData)
+        buscaNaApi(quandoSucesso = atualizaLiveData,
+            quandoFalha = {
+                val resourceAtual = noticiasEncontradas.value
+                val resourceFalha =
+                    criaResouceFalha<List<Noticia>?>(resourceAtual, it)
+                noticiasEncontradas.value = resourceFalha
+            })
         return noticiasEncontradas
     }
 
-    fun salva(
-        noticia: Noticia,
-        quandoSucesso: (noticiaNova: Noticia) -> Unit,
-        quandoFalha: (erro: String?) -> Unit
-    ) {
-        salvaNaApi(noticia, quandoSucesso, quandoFalha)
+    fun salva(noticia: Noticia): LiveData<Resource<Void?>> {
+        val liveData = MutableLiveData<Resource<Void?>>()
+        salvaNaApi(noticia, quandoSucesso = {
+            liveData.value = Resource(null)
+        }, quandoFalha = {
+            liveData.value = Resource(dado = null, erro = it)
+        })
+        return liveData
     }
 
     fun remove(
