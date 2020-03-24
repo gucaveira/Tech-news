@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.technews.R
+import com.technews.model.Noticia
 import com.technews.ui.fragment.extensions.mostraErro
 import com.technews.ui.recyclerview.adapter.ListaNoticiasAdapter
 import com.technews.ui.viewmodel.ListaNoticiasViewModel
@@ -25,10 +26,12 @@ class ListaNoticiasFragment : Fragment() {
         } ?: throw IllegalArgumentException("Contexto inválido")
     }
     private val viewModel: ListaNoticiasViewModel by viewModel()
+    var quandoFabSalvaNoticiaClicado: () -> Unit = {}
+    var quandoNoticiaSeleciona: (noticia: Noticia) -> Unit = {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // buscaNoticias() precisa está com servidor ativado
+        buscaNoticias() // precisa está com servidor ativado
     }
 
     override fun onCreateView(
@@ -51,7 +54,7 @@ class ListaNoticiasFragment : Fragment() {
 
     private fun configuraFabAdicionaNoticia() {
         lista_noticias_fab_salva_noticia.setOnClickListener {
-//            abreFormularioModoCriacao()
+            quandoFabSalvaNoticiaClicado()
         }
     }
 
@@ -63,7 +66,7 @@ class ListaNoticiasFragment : Fragment() {
     }
 
     private fun configuraAdapter() {
-//        adapter.quandoItemClicado = this::abreVisualizadorNoticia
+        adapter.quandoItemClicado = quandoNoticiaSeleciona
     }
 
     private fun buscaNoticias() {
@@ -74,6 +77,4 @@ class ListaNoticiasFragment : Fragment() {
             }
         })
     }
-
-
 }

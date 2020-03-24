@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.technews.R
 import com.technews.model.Noticia
+import com.technews.ui.fragment.ListaNoticiasFragment
 
 private const val TITULO_APPBAR = "Notícias"
 
@@ -15,6 +16,18 @@ class ListaNoticiasActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_noticias)
         title = TITULO_APPBAR
+    }
+
+    override fun onAttachFragment(fragment: androidx.fragment.app.Fragment) {
+        super.onAttachFragment(fragment)
+        if (fragment is ListaNoticiasFragment) {
+            fragment.quandoNoticiaSeleciona = {
+                abreVisualizadorNoticia(it)
+            }
+            fragment.quandoFabSalvaNoticiaClicado = {
+                abreFormularioModoCriacao()
+            }
+        }
     }
 
     private fun abreFormularioModoCriacao() {
@@ -28,6 +41,6 @@ class ListaNoticiasActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun AbreIntent(context: Context ){}
+    fun AbreIntent(context: Context) {}
 
 }
