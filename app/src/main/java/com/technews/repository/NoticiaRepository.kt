@@ -11,7 +11,7 @@ import com.technews.retrofit.webclient.NoticiaWebClient
 
 class NoticiaRepository(
     private val dao: NoticiaDAO,
-    private val webclient: NoticiaWebClient = NoticiaWebClient()
+    private val webclient: NoticiaWebClient
 ) {
 
     private val mediatorLiveData = MediatorLiveData<Resource<List<Noticia>?>>()
