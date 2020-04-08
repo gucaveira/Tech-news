@@ -9,16 +9,19 @@ import com.technews.ui.activity.extensions.transacaofragment
 import com.technews.ui.fragment.ListaNoticiasFragment
 import com.technews.ui.fragment.VisualizaNoticiaFragment
 
-private const val TITULO_APPBAR = "Notícias"
-
 class NoticiasActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_noticias_container)
-        title = TITULO_APPBAR
+        if (savedInstanceState == null) {
+            abreListaNoticias()
+        }
+    }
+
+    private fun abreListaNoticias() {
         transacaofragment {
-            add(R.id.activity_noticias_container, ListaNoticiasFragment())
+            replace(R.id.activity_noticias_container, ListaNoticiasFragment())
         }
     }
 
@@ -55,6 +58,7 @@ class NoticiasActivity : AppCompatActivity() {
         bundle.putLong(NOTICIA_ID_CHAVE, noticia.id)
         fragment.arguments = bundle
         transacaofragment {
+            addToBackStack(null)
             replace(R.id.activity_noticias_container, fragment)
         }
     }

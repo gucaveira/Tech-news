@@ -15,6 +15,8 @@ import org.koin.core.parameter.parametersOf
 
 private const val NOTICIA_NAO_ENCONTRADA = "Notícia não encontrada"
 private const val MENSAGEM_FALHA_REMOCAO = "Não foi possível remover notícia"
+private const val TITULO_APPBAR = "Notícia"
+
 
 class VisualizaNoticiaFragment : Fragment() {
 
@@ -29,6 +31,7 @@ class VisualizaNoticiaFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activity?.title = TITULO_APPBAR
         setHasOptionsMenu(true)
         verificaIdDaNoticia()
         buscaNoticiaSelecionada()

@@ -17,6 +17,8 @@ import kotlinx.android.synthetic.main.fragment_lista_noticia.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val MENSAGEM_FALHA_CARREGAR_NOTICIAS = "Não foi possível carregar as novas notícias"
+private const val TITULO_APPBAR = "Notícias"
+
 
 class ListaNoticiasFragment : Fragment() {
 
@@ -31,6 +33,7 @@ class ListaNoticiasFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activity?.title = TITULO_APPBAR
         buscaNoticias() // precisa está com servidor ativado
     }
 
