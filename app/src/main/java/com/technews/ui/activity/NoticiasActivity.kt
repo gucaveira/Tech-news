@@ -13,7 +13,7 @@ class NoticiasActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_noticias_container)
+        setContentView(R.layout.activity_noticias)
         if (savedInstanceState == null) {
             abreListaNoticias()
         }
@@ -21,7 +21,7 @@ class NoticiasActivity : AppCompatActivity() {
 
     private fun abreListaNoticias() {
         transacaofragment {
-            replace(R.id.activity_noticias_container, ListaNoticiasFragment())
+            replace(R.id.activity_noticias_container_primario, ListaNoticiasFragment())
         }
     }
 
@@ -59,7 +59,7 @@ class NoticiasActivity : AppCompatActivity() {
         fragment.arguments = bundle
         transacaofragment {
             addToBackStack(null)
-            replace(R.id.activity_noticias_container, fragment)
+            replace(R.id.activity_noticias_container_secundario, fragment)
         }
     }
 
