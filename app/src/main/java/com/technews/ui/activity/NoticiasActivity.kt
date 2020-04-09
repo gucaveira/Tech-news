@@ -8,6 +8,9 @@ import com.technews.model.Noticia
 import com.technews.ui.activity.extensions.transacaofragment
 import com.technews.ui.fragment.ListaNoticiasFragment
 import com.technews.ui.fragment.VisualizaNoticiaFragment
+import kotlinx.android.synthetic.main.activity_noticias.*
+
+private const val TAG_FRAGMENT_VISUALIZA_NOTICIA = "visualizaNoticia"
 
 class NoticiasActivity : AppCompatActivity() {
 
@@ -16,6 +19,29 @@ class NoticiasActivity : AppCompatActivity() {
         setContentView(R.layout.activity_noticias)
         if (savedInstanceState == null) {
             abreListaNoticias()
+        } else {
+            supportFragmentManager.findFragmentByTag(TAG_FRAGMENT_VISUALIZA_NOTICIA)
+                ?.let { fragment ->
+                    val argumentos = fragment.arguments
+                    val novoFragment = VisualizaNoticiaFragment()
+                    novoFragment.arguments = argumentos
+
+                    transacaofragment {
+                        remove(fragment)
+                    }
+                    supportFragmentManager.popBackStack()
+
+                    transacaofragment {
+                        val container =
+                            if (activity_noticias_container_secundario != null) {
+                                R.id.activity_noticias_container_secundario
+                            } else {
+                                addToBackStack(null)
+                                R.id.activity_noticias_container_primario
+                            }
+                        replace(container, novoFragment, TAG_FRAGMENT_VISUALIZA_NOTICIA)
+                    }
+                }
         }
     }
 
@@ -58,8 +84,14 @@ class NoticiasActivity : AppCompatActivity() {
         bundle.putLong(NOTICIA_ID_CHAVE, noticia.id)
         fragment.arguments = bundle
         transacaofragment {
-            addToBackStack(null)
-            replace(R.id.activity_noticias_container_secundario, fragment)
+            val container =
+                if (activity_noticias_container_secundario != null) {
+                    R.id.activity_noticias_container_secundario
+                } else {
+                    addToBackStack(null)
+                    R.id.activity_noticias_container_primario
+                }
+            replace(container, fragment, TAG_FRAGMENT_VISUALIZA_NOTICIA)
         }
     }
 
