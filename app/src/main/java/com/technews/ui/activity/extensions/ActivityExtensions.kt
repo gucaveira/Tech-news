@@ -13,7 +13,7 @@ fun Activity.mostraErro(mensagem: String) {
     ).show()
 }
 
-fun AppCompatActivity.transacaofragment(executa: FragmentTransaction.() -> Unit) {
+fun AppCompatActivity.transacaoFragment(executa: FragmentTransaction.() -> Unit) {
     val transacao = supportFragmentManager.beginTransaction()
     executa(transacao)
     transacao.commit()
